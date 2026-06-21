@@ -1,6 +1,6 @@
-# GStack (gstack)
+# GStack — Garry's Stack
 
-**Version:** v0.1  
+**Version:** v1.58.3.0  
 **Status:** Active Development  
 **Repository:** https://github.com/OneByJorah/gstack
 
@@ -24,62 +24,82 @@
 
 ## Overview
 
-General-purpose stack orchestration and deployment templates for J1 environments.
+GStack is a full AI engineering workflow in one repo: Claude Code skills, fast headless browser automation, diagram rendering, PDF generation, decision logs, and artifact management. It provides a CLI-driven stack for code review, browsing, design, and automation.
 
 ---
 
 ## Architecture
 
-Client → Local service (`gstack`) → data/processing modules → output/api layer.
-Secrets and environment configuration are managed via environment files with restrictive permissions.
+CLI (`bin/*`) → core libraries → headless browser / diagram renderer / PDF engine → workspace output. Skills and rules are defined as `SKILL.md` templates and generated into the rules tree.
+
+Key bundles:
+- `autoplan/`, `benchmark/`, `benchmark-models/` skill packs.
+- `bin/gstack-*` utilities for analytics, brain/cache, decision logs, community dashboard, and more.
+- Extension payload for browser/terminal integration.
 
 ---
 
 ## Technology Stack
 
-|| Layer | Stack |
+| Layer | Stack |
 |---|---|
-| Runtime | Linux (Ubuntu 22.04+) |
-| Primary Stack | Docker / Bash |
+| Runtime | Node.js / Bun |
+| Language | TypeScript / Shell / Python |
+| Packaging | npm / pyproject.toml |
+| Build | bash scripts / bun |
+| Browser | Headless automation (browse CLI / CDP) |
+| Docs | Markdown skill docs generator |
 | VCS | Git + GitHub (`github.com/OneByJorah/gstack`) |
-| Dev Port | Localhost / systemd service |
 
 ---
 
 ## Features
 
-- Operational dashboard and monitoring (per repo).
-- Exportable data / reports where supported.
-- Extensible service-based design.
-- Dark-themed UI where applicable.
+- **Codex-ready skills**: autocoded SKILL.md templates for plan, benchmark, autoplan, and more.
+- **Headless browser**: fast browse CLI with CDP and extension support.
+- **Diagram + PDF**: render diagrams and generate PDFs.
+- **Decision log**: `gstack-decision-log` / `gstack-decision-search` for traceability.
+- **Artifacts**: `gstack-artifacts-*` for init, URL, and analytics.
+- **Community dashboard**: `gstack-community-dashboard` for usage/feedback.
+- **Multi-mode**: supports `npm run build`, `npm run dev`, and `npm run server`.
 
 ---
 
 ## Getting Started
 
 ```bash
-# 1. Clone the repository
+# 1. Clone
 git clone https://github.com/OneByJorah/gstack.git
 cd gstack
 
-# 2. Install dependencies
-# (see specific subproject docs)
+# 2. Install
+npm install
+# or
+bun install
 
-# 3. Start the service
-# (see Service Management below)
+# 3. Build
+npm run build
+
+# 4. Run browser
+npm run dev
+# or start server
+npm run server
 ```
+
+See `ARCHITECTURE.md` and individual `bin/` tool READMEs for sub-command docs.
 
 ---
 
 ## Service Management
 
 ```bash
-# Start the service (example)
-sudo systemctl start gstack.service
-sudo systemctl enable gstack.service
-```
+# Development
+npm run dev          # browse CLI
+npm run server       # server mode
 
-Access the service via your configured localhost port or reverse proxy.
+# Build/publish artifacts
+npm run build
+```
 
 ---
 
@@ -87,24 +107,40 @@ Access the service via your configured localhost port or reverse proxy.
 
 ```
 gstack/
-├── README.md
-├── (additional project files)
+├── bin/               # Executable CLIs (browse, gstack-*, make-pdf, etc.)
+├── autoplan/
+├── benchmark/
+├── benchmark-models/
+├── docs/
+├── extension/         # Browser extension payload + icons
+├── lib/               # Shared libs (browser, diagram-render)
+├── agents/
+├── agents/*.yaml
+├── AGENTS.md
+├── ARCHITECTURE.md
+├── package.json
+└── README.md
 ```
 
 ---
 
 ## Screenshots
 
-All screenshots are live captures from the local dev instance.
+### GitHub UI Reference
+![GitHub 2013](docs/images/github-2013.png)
 
-_(Screenshots will be added after build/run capture.)_
+### GitHub UI Reference
+![GitHub 2026](docs/images/github-2026.png)
+
+### Extension Icon
+![Icon](extension/icons/icon-128.png)
 
 ---
 
 ## Contributing
 
 1. Create a feature branch off `main`.
-2. Follow the existing code style.
+2. Build and test affected CLI tools before submitting.
 3. Submit a PR with description and screenshots for UI changes.
 
 ---
